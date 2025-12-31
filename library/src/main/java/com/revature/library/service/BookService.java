@@ -14,35 +14,45 @@ import java.util.Optional;
 public class BookService {
 
     // TODO: Declare a final BookRepository field
-    // private final BookRepository bookRepository;
+    private final BookRepository bookRepository;
 
     // TODO: Create constructor that accepts BookRepository
-    // public BookService(BookRepository bookRepository) {
-    // this.bookRepository = bookRepository;
-    // }
+    public BookService(BookRepository bookRepository) {
+        this.bookRepository = bookRepository;
+    }
 
     public List<Book> getAllBooks() {
         // TODO: Return all books from repository
-        return null;
+        return bookRepository.findAll();
     }
 
     public Optional<Book> findById(Long id) {
         // TODO: Find book by ID
-        return Optional.empty();
+        return bookRepository.findById(id);
     }
 
     public Book addBook(Book book) {
         // TODO: Save and return the book
-        return null;
+        return bookRepository.save(book);
     }
 
     public Book checkoutBook(Long bookId) {
         // TODO: Find book, set available = false, save and return
+        Book book = bookRepository.findById(bookId).orElse(null);
+        if (book != null) {
+            book.setAvailable(false);
+            return bookRepository.save(book);
+        }
         return null;
     }
 
     public Book returnBook(Long bookId) {
         // TODO: Find book, set available = true, save and return
+        Book book = bookRepository.findById(bookId).orElse(null);
+        if (book != null) {
+            book.setAvailable(true);
+            return bookRepository.save(book);
+        }
         return null;
     }
 }
